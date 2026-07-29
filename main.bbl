@@ -1,0 +1,99 @@
+\begin{thebibliography}{}
+
+\bibitem[Agrawal et~al., 2021]{agrawal2021regret}
+Agrawal, S., Juneja, S.~K., and Koolen, W.~M. (2021).
+\newblock Regret minimization in heavy-tailed bandits.
+\newblock In {\em Proceedings of the 34th Conference on Learning Theory},
+  volume 134 of {\em Proceedings of Machine Learning Research}, pages 26--62.
+  PMLR.
+
+\bibitem[Ashutosh et~al., 2021]{ashutosh2021letting}
+Ashutosh, K., Nair, J., Kagrecha, A., and Jagannathan, K. (2021).
+\newblock Bandit algorithms: Letting go of logarithmic regret for statistical
+  robustness.
+\newblock In {\em Proceedings of the 24th International Conference on
+  Artificial Intelligence and Statistics}, volume 130 of {\em Proceedings of
+  Machine Learning Research}, pages 622--630. PMLR.
+
+\bibitem[Bubeck et~al., 2013]{bubeck2013bandits}
+Bubeck, S., Cesa-Bianchi, N., and Lugosi, G. (2013).
+\newblock Bandits with heavy tail.
+\newblock {\em IEEE Transactions on Information Theory}, 59(11):7711--7717.
+
+\bibitem[Chen et~al., 2025]{chen2025uniinf}
+Chen, Y., Huang, J., Dai, Y., and Huang, L. (2025).
+\newblock {uniINF}: Best-of-both-worlds algorithm for parameter-free
+  heavy-tailed {MABs}.
+\newblock In {\em International Conference on Learning Representations}.
+
+\bibitem[Genalti et~al., 2024]{genalti2024adaptive}
+Genalti, G., Marsigli, L., Gatti, N., and Metelli, A.~M. (2024).
+\newblock {$(\epsilon,u)$}-adaptive regret minimization in heavy-tailed
+  bandits.
+\newblock In {\em Proceedings of the 37th Conference on Learning Theory},
+  volume 247 of {\em Proceedings of Machine Learning Research}, pages
+  1882--1915. PMLR.
+
+\bibitem[Genalti and Metelli, 2025a]{genalti2025open}
+Genalti, G. and Metelli, A.~M. (2025a).
+\newblock Open problem: Regret minimization in heavy-tailed bandits with
+  unknown distributional parameters.
+\newblock In {\em Proceedings of the 38th Conference on Learning Theory},
+  volume 291 of {\em Proceedings of Machine Learning Research}, pages 1--5.
+  PMLR.
+
+\bibitem[Genalti and Metelli, 2025b]{genalti2025lower}
+Genalti, G. and Metelli, A.~M. (2025b).
+\newblock A regret lower bound for $u$-adaptive heavy-tailed bandits.
+\newblock Technical report, Politecnico di Milano.
+
+\bibitem[Hadiji and Stoltz, 2023]{hadiji2023range}
+Hadiji, H. and Stoltz, G. (2023).
+\newblock Adaptation to the range in $k$-armed bandits.
+\newblock {\em Journal of Machine Learning Research}, 24(13):1--33.
+
+\bibitem[Han et~al., 2024]{han2024forced}
+Han, Q., Zhu, L., and Guo, F. (2024).
+\newblock Forced exploration in bandit problems.
+\newblock In {\em Proceedings of the AAAI Conference on Artificial
+  Intelligence}, volume~38, pages 12270--12277.
+
+\bibitem[Huang et~al., 2022]{huang2022adaptive}
+Huang, J., Dai, Y., and Huang, L. (2022).
+\newblock Adaptive best-of-both-worlds algorithm for heavy-tailed multi-armed
+  bandits.
+\newblock In {\em Proceedings of the 39th International Conference on Machine
+  Learning}, volume 162 of {\em Proceedings of Machine Learning Research},
+  pages 9173--9200. PMLR.
+
+\bibitem[Park et~al., 2026]{park2026boltzmann}
+Park, H.-j., Cho, Y.-S., and Lee, K. (2026).
+\newblock Boltzmann exploration for heavy-tailed bandits.
+\newblock In {\em Proceedings of the 29th International Conference on
+  Artificial Intelligence and Statistics}, volume 300 of {\em Proceedings of
+  Machine Learning Research}. PMLR.
+
+\bibitem[Tam\'as et~al., 2024]{tamas2024data}
+Tam\'as, A., Szentp\'eteri, S., and Cs\'aji, B.~C. (2024).
+\newblock Data-driven upper confidence bounds with near-optimal regret for
+  heavy-tailed bandits.
+\newblock {\em arXiv preprint arXiv:2406.05710}.
+
+\bibitem[von Bahr and Esseen, 1965]{vonbahr1965inequalities}
+von Bahr, B. and Esseen, C.-G. (1965).
+\newblock Inequalities for the $r$th absolute moment of a sum of random
+  variables, $1\leq r\leq2$.
+\newblock {\em The Annals of Mathematical Statistics}, 36(1):299--303.
+
+\bibitem[Wei and Srivastava, 2021]{wei2020minimax}
+Wei, L. and Srivastava, V. (2021).
+\newblock Minimax policy for heavy-tailed bandits.
+\newblock {\em IEEE Control Systems Letters}, 5(4):1423--1428.
+
+\bibitem[Zhao et~al., 2025]{zhao2025linear}
+Zhao, C., Ito, S., and Li, S. (2025).
+\newblock Heavy-tailed linear bandits: Adversarial robustness,
+  best-of-both-worlds, and beyond.
+\newblock {\em arXiv preprint arXiv:2508.13679}.
+
+\end{thebibliography}

@@ -1,0 +1,486 @@
+\documentclass[twoside]{article}
+
+\usepackage[preprint]{aistats2027}
+\usepackage[round,authoryear]{natbib}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage{url}
+
+\renewcommand{\bibname}{References}
+\renewcommand{\bibsection}{\subsubsection*{\bibname}}
+\bibliographystyle{apalike}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newcommand{\E}{\mathbb E}
+\newcommand{\cH}{\mathcal H}
+\newcommand{\FM}{\textnormal{\textsc{ForceMoM}}}
+
+\begin{document}
+\runningtitle{Adaptation Frontier for Heavy-Tailed Bandits}
+
+\twocolumn[
+\aistatstitle{Supplement: A Sharp Adaptation Frontier for Heavy-Tailed Bandits\\with Unknown Moments}
+
+\aistatsauthor{}
+
+\aistatsaddress{}
+]
+
+This supplement gives complete proofs of all results in the main paper. It
+also reproves the unknown-scale lower tradeoff with a corrected constant.
+
+\section{Algorithm and Exploration Counts}
+\label{app:schedule}
+
+Fix $K\geq2$ and $\rho\in(0,1)$. Let
+\[
+ m_0=\lceil16\log(2K+e)\rceil,
+ \qquad t_0=Km_0.
+\]
+The algorithm first pulls each arm $m_0$ times in cyclic order. These pulls
+are marked as exploration. For $t>t_0$, define
+\[
+ D_t=\max\{t_0,\lceil K^{1-\rho}t^\rho\rceil\}.
+\]
+If the exploration count before round $t$ is smaller than $D_t$, the
+algorithm explores the next arm in cyclic order. Otherwise it exploits.
+
+Let $F_t$ be the total number of exploration pulls through round $t$, and
+let $N_i^E(t)$ be the number assigned to arm $i$. The initialization has
+$F_{t_0}=D_{t_0}=t_0$.
+
+\begin{lemma}[Exact tracking]
+\label{lem:tracking}
+For every $t\geq t_0$, $F_t=D_t$. Moreover,
+\begin{equation}
+ \left\lfloor\frac{D_t}{K}\right\rfloor
+ \leq N_i^E(t)
+ \leq\left\lceil\frac{D_t}{K}\right\rceil
+ \label{eq:cyclic-count}
+\end{equation}
+for every arm $i$.
+\end{lemma}
+
+\begin{proof}
+Let $g(t)=K^{1-\rho}t^\rho$. For $t\geq K$,
+\[
+ g'(t)=\rho K^{1-\rho}t^{\rho-1}\leq\rho<1.
+\]
+Hence $g(t)-g(t-1)<1$ and
+$\lceil g(t)\rceil-\lceil g(t-1)\rceil\in\{0,1\}$. Taking the maximum with
+the constant $t_0$ preserves this property. Since
+$g(t_0)=K m_0^\rho\leq Km_0=t_0$, we have $D_{t_0}=t_0$.
+
+Inductively, suppose $F_{t-1}=D_{t-1}$. If $D_t=D_{t-1}$, the condition for
+forced exploration is false and $F_t=D_t$. If $D_t=D_{t-1}+1$, the
+condition is true, so exactly one exploration pull occurs and again
+$F_t=D_t$. This proves exact tracking. Cyclic assignment makes the arm
+counts differ by at most one, which gives \eqref{eq:cyclic-count}.
+\end{proof}
+
+Before any exploitation decision at $t>t_0$, every arm therefore has at
+least
+\begin{equation}
+ n_t:=\left\lfloor D_{t-1}/K\right\rfloor
+ \geq\left\lfloor K^{-\rho}(t-1)^\rho\right\rfloor.
+ \label{eq:n-lower-floor}
+\end{equation}
+Since $t_0/K=m_0\geq31$, the quantity inside the last floor is at least
+$m_0^\rho\geq1$. Since $\lfloor x\rfloor\geq x/2$ for every $x\geq1$,
+we have uniformly for $t>t_0$ that
+\begin{equation}
+ n_t\geq\frac12K^{-\rho}(t-1)^\rho.
+ \label{eq:n-lower}
+\end{equation}
+
+The exploration regret admits both uniform and instance-specific bounds.
+Jensen's inequality implies $\Delta_i\leq2u^{1/p}$, so
+\begin{equation}
+ R_T^E\leq2u^{1/p}D_T
+ \leq2u^{1/p}\{Km_0+K^{1-\rho}T^\rho+1\}.
+ \label{eq:explore-uniform}
+\end{equation}
+On a fixed instance, cyclic assignment and Lemma~\ref{lem:tracking} give
+\begin{equation}
+ \lim_{T\to\infty}\frac{R_T^E}{T^\rho}
+ =K^{-\rho}\sum_{i=1}^K\Delta_i.
+ \label{eq:explore-instance}
+\end{equation}
+
+\section{Median-of-Means Bounds}
+\label{app:mom}
+
+We prove the estimator lemma uniformly for all $p\in(1,2]$. Let
+$X_1,\ldots,X_n$ be i.i.d., let $\mu=\E X$, and assume
+$\E|X|^p\leq u$. Let $q\leq n$ be odd and put $k=(q+1)/2$ and
+$m=\lfloor n/q\rfloor$. Form $q$ block averages $\bar X_1,\ldots,\bar X_q$
+from $qm$ samples and let $M_{n,q}$ be their median.
+
+\begin{lemma}[One block]
+\label{lem:block}
+For every block $j$,
+\begin{equation}
+ \E|\bar X_j-\mu|^p
+ \leq16u(q/n)^{p-1}.
+ \label{eq:block-moment}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By Jensen, $|\mu|^p\leq u$. Convexity gives
+\[
+ \E|X-\mu|^p
+ \leq2^{p-1}\{\E|X|^p+|\mu|^p\}
+ \leq2^p u.
+\]
+The von Bahr--Esseen inequality
+\citep{vonbahr1965inequalities} yields
+\begin{align*}
+ \E|\bar X_j-\mu|^p
+ &\leq m^{-p}\,2m\E|X-\mu|^p\\
+ &\leq2^{p+1}u m^{1-p}.
+\end{align*}
+Since $n/q\geq1$, $m=\lfloor n/q\rfloor\geq n/(2q)$. Also
+$2^{p+1}2^{p-1}=2^{2p}\leq16$. Substitution proves
+\eqref{eq:block-moment}.
+\end{proof}
+
+\begin{lemma}[MoM tail and mean]
+\label{lem:mom-full}
+For every $x>0$,
+\begin{equation}
+ \Pr\{|M_{n,q}-\mu|>x\}
+ \leq\min\left\{1,
+ \left(\frac{64u(q/n)^{p-1}}{x^p}\right)^k\right\}.
+ \label{eq:mom-tail-app}
+\end{equation}
+If $q\geq3$, then
+\begin{equation}
+ \E|M_{n,q}-\mu|
+ \leq128u^{1/p}(q/n)^{(p-1)/p}.
+ \label{eq:mom-mean-app}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{lem:block} and Markov's inequality, the probability that one
+block differs from $\mu$ by more than $x$ is at most
+\[
+ \theta_x=\min\{1,16u(q/n)^{p-1}x^{-p}\}.
+\]
+If the median differs by more than $x$, at least $k$ blocks do. Their
+independence and a union bound over subsets of size $k$ give
+\[
+ \Pr\{|M_{n,q}-\mu|>x\}
+ \leq2^q\theta_x^k.
+\]
+Since $q=2k-1$, $2^q\leq4^k$. This proves
+\eqref{eq:mom-tail-app}.
+
+Set
+\[
+ x_0=64^{1/p}u^{1/p}(q/n)^{(p-1)/p}.
+\]
+Integrating \eqref{eq:mom-tail-app} gives
+\begin{align*}
+ \E|M_{n,q}-\mu|
+ &\leq x_0+\int_{x_0}^\infty(x_0/x)^{pk}\,dx\\
+ &=x_0\left(1+\frac1{pk-1}\right).
+\end{align*}
+For $q\geq3$, $k\geq2$ and $pk-1>1$. Hence the last display is at most
+$2x_0\leq128u^{1/p}(q/n)^{(p-1)/p}$.
+\end{proof}
+
+\begin{lemma}[Maximum over arms]
+\label{lem:max-full}
+Suppose $K$ arm estimators satisfy \eqref{eq:mom-tail-app} with arm-specific
+$q_i,n_i,k_i$, where $q_i\leq q$, $n_i\geq n$, and
+$k_i\geq\log(2K)$. Then
+\begin{equation}
+ \E\max_{i\leq K}|M_i-\mu_i|
+ \leq128e\,u^{1/p}(q/n)^{(p-1)/p}.
+ \label{eq:max-app}
+\end{equation}
+No independence across arms is required.
+\end{lemma}
+
+\begin{proof}
+Let $k_0=\min_i k_i$ and
+$A=64u(q/n)^{p-1}$. The union bound and
+\eqref{eq:mom-tail-app} imply
+\[
+ \Pr\{\max_i|M_i-\mu_i|>x\}
+ \leq\min\{1,K(A/x^p)^{k_0}\}
+\]
+whenever $x^p\geq A$. Let
+$x_0=A^{1/p}K^{1/(pk_0)}$. Tail integration as in the previous proof gives
+an expectation at most $2x_0$. Since $k_0\geq\log(2K)$,
+\[
+ K^{1/(pk_0)}
+ \leq\exp\{\log K/\log(2K)\}\leq e.
+\]
+Also $2A^{1/p}\leq128u^{1/p}(q/n)^{(p-1)/p}$.
+\end{proof}
+
+For the algorithm, let $\ell:\mathbb N\to[1,\infty)$ be nondecreasing with
+$\ell(n)\to\infty$, $\ell(n+1)-\ell(n)\leq1$, and
+$\log\ell(n)=o(\log n)$. Define
+\begin{align*}
+ q(n)=\max\{r:\;&r\leq n,\ r\leq
+ 2\lceil\log(2K)+\ell(n)\rceil+1,\\
+ &r\text{ is odd}\}.
+\end{align*}
+The assumed schedule is nondecreasing and satisfies
+$\ell(n+1)-\ell(n)\leq1$. Hence $q(n+1)-q(n)\leq2$. This is the only
+regularity property of the block schedule needed below.
+For $n\geq m_0$, both arguments of the minimum exceed
+$2\log(2K)+1$. Thus $q(n)\geq2\log(2K)-1$, and
+$k(n)=(q(n)+1)/2\geq\log(2K)$. Also
+\begin{equation}
+ q(n)\leq3+2\log(2K)+2\ell(n).
+ \label{eq:q-upper-app}
+\end{equation}
+
+\section{Proof of the Finite-Time Upper Bound}
+\label{app:upper}
+
+Let $J_t$ be the arm chosen on an exploitation round and fix an optimal arm
+$i_*$. Since $M_{J_t}\geq M_{i_*}$,
+\begin{align}
+ \Delta_{J_t}
+ &=\mu_*-\mu_{J_t}\nonumber\\
+ &\leq|M_{i_*}-\mu_*|+|M_{J_t}-\mu_{J_t}|\nonumber\\
+ &\leq2\max_i|M_i-\mu_i|.
+ \label{eq:leader-app}
+\end{align}
+The exploration counts of any two arms differ by at most one. Applying
+Lemma~\ref{lem:max-full}, \eqref{eq:n-lower}, and
+\eqref{eq:q-upper-app}, we obtain for all exploitation rounds outside a
+finite initial interval
+\begin{align}
+ \E\Delta_{J_t}
+ &\leq C u^{1/p}
+ \left(\frac{1+\log(2K)+\ell(t)}{K^{-\rho}t^\rho}
+ \right)^{(p-1)/p}\nonumber\\
+ &=C u^{1/p}K^{\rho(p-1)/p}
+ L_t^{(p-1)/p}t^{-\rho(p-1)/p},
+ \label{eq:instant-app}
+\end{align}
+where $L_t=1+\log(2K)+\ell(t)$.
+
+Put $a=\rho(p-1)/p$. Since $p\leq2$ and $\rho<1$, $a<1/2$. Monotonicity of
+$L_t$ and integral comparison give
+\begin{equation}
+ \sum_{t=1}^T L_t^{(p-1)/p}t^{-a}
+ \leq2L_T^{(p-1)/p}T^{1-a}.
+ \label{eq:sum-app}
+\end{equation}
+Combining \eqref{eq:explore-uniform}, \eqref{eq:instant-app}, and
+\eqref{eq:sum-app}, and enlarging the universal constant to cover
+$T\leq t_0$, proves
+\begin{align*}
+ R_T\leq C u^{1/p}\big\{&K\log(eK)+K^{1-\rho}T^\rho\\
+ &+K^{\rho(p-1)/p}T^{1-\rho(p-1)/p}
+ L_T^{(p-1)/p}\big\}.
+\end{align*}
+This is Theorem 2 of the main paper.
+
+If $\rho\leq2/3$, then for every $p\in(1,2]$,
+\[
+ 1-\rho(p-1)/p-\rho
+ =1-\rho(2p-1)/p
+ \geq1-3\rho/2\geq0.
+\]
+Thus the exploitation term has the larger or equal exponent.
+
+\section{Proof of the Fixed-Instance Bound}
+\label{app:instance}
+
+Fix an instance in $\cH_{p,u}$ and a suboptimal arm $i$ with
+$\Delta_i>0$. If $i$ is selected on an exploitation round, then
+\[
+ M_i\geq M_{i_*}.
+\]
+This implies either $M_i-\mu_i\geq\Delta_i/2$ or
+$\mu_*-M_{i_*}\geq\Delta_i/2$. Let $\underline q_t$ and
+$\overline q_t$ be the smaller and larger block counts among the two
+estimates. The arm exploration counts differ by at most one, so
+$\overline q_t\leq\underline q_t+2$. By Lemma~\ref{lem:mom-full}, for a
+constant $C$ and all sufficiently large $t$,
+\begin{equation}
+ \Pr\{J_t=i\}
+ \leq2\left[
+ \frac{Cu \overline q_t^{p-1}}
+ {\Delta_i^p n_t^{p-1}}
+ \right]^{(\underline q_t+1)/2}.
+ \label{eq:mistake-app}
+\end{equation}
+Here $n_t$ is the smaller sample count.
+
+We verify summability. Since $\log\ell(n)=o(\log n)$,
+\[
+ \log \overline q_t=o(\log n_t).
+\]
+Hence, for every fixed $p,u,\Delta_i$, the logarithm of the quantity inside
+the brackets in \eqref{eq:mistake-app} is eventually at most
+\[
+ -\frac{p-1}{2}\log n_t.
+\]
+By \eqref{eq:n-lower}, it is then at most
+$-(p-1)\rho\log t/4$ after increasing the instance-dependent threshold.
+Since $\underline q_t\to\infty$, eventually
+\[
+ \frac{(p-1)\rho(\underline q_t+1)}8\geq3.
+\]
+Therefore $\Pr\{J_t=i\}\leq2t^{-3}$ eventually. Summing over time and over
+the finitely many suboptimal arms proves
+\[
+ \sum_{t=1}^\infty
+ \Pr\{t\text{ is exploit and }J_t\text{ is suboptimal}\}<\infty.
+\]
+The expected total regret due to exploitation is finite. Equation
+\eqref{eq:explore-instance} now proves
+\[
+ \limsup_{T\to\infty}\frac{R_T}{T^\rho}
+ \leq K^{-\rho}\sum_i\Delta_i.
+\]
+
+\section{The Unknown-Scale Lower Tradeoff}
+\label{app:lower}
+
+For completeness, we prove the exponent lower bound used in the main paper.
+The argument follows \citet{genalti2025lower}, which adapts
+\citet{hadiji2023range}. Our statement uses a $p$-dependent constant. This is
+all that is needed for the polynomial frontier.
+
+\begin{theorem}[Lower tradeoff]
+\label{thm:lower-app}
+Fix $p\in(1,2]$. Suppose a policy does not know $u$ and, for a function
+$\Phi(T)=o(T)$, satisfies
+\begin{equation}
+ R_T(\eta)\leq v^{1/p}\Phi(T)
+ \label{eq:moment-free-app}
+\end{equation}
+for every $v>0$, every $\eta\in\cH_{p,v}$, and every $T$. Then every fixed
+instance $\nu$ with at least one suboptimal arm satisfies
+\begin{equation}
+ \liminf_{T\to\infty}
+ \frac{R_T(\nu)}{(T/\Phi(T))^{p/(p-1)}}
+ \geq c_p\sum_{i:\Delta_i>0}\Delta_i,
+ \label{eq:lower-app}
+\end{equation}
+where one may take
+\begin{equation}
+ c_p=\frac{1}{2\,8^{p/(p-1)}}.
+ \label{eq:cp}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Fix a suboptimal arm $a$ of $\nu$, with law $\nu_a$, mean $\mu_a$, and gap
+$\Delta_a>0$. Let $v$ be any finite common upper bound on the arms' $p$th
+absolute moments. For $\beta\in(0,1/2)$, define an alternative law
+\begin{equation}
+ \nu'_{a,\beta}
+ =(1-\beta)\nu_a+
+ \beta\delta_{\mu_a+2\Delta_a/\beta}.
+ \label{eq:alternative}
+\end{equation}
+Its mean is $\mu_a+2\Delta_a=\mu_*+\Delta_a$, so arm $a$ is uniquely better
+than every original optimal arm by at least $\Delta_a$. Let $v'_\beta$ be a
+common $p$th-moment bound for the alternative bandit. We may take
+\begin{equation}
+ v'_\beta
+ =v+(1-\beta)\E_{\nu_a}|X|^p
+ +\beta|\mu_a+2\Delta_a/\beta|^p.
+ \label{eq:vprime}
+\end{equation}
+The redundant $v$ term safely covers all unchanged arms.
+
+Write $N_a(T)$ for the number of pulls of arm $a$, and let $P$ and $P'$ be
+the history laws under the original and alternative instances. Mixture
+domination gives
+\[
+ \mathrm{KL}(\nu_a,\nu'_{a,\beta})
+ \leq\log\frac1{1-\beta}\leq2\beta\log2.
+\]
+The standard bandit change-of-measure identity and data processing give
+\begin{equation}
+ \operatorname{kl}\left(
+ \frac{\E_PN_a(T)}T,
+ \frac{\E_{P'}N_a(T)}T\right)
+ \leq2\beta\log2\,\E_PN_a(T).
+ \label{eq:data-processing}
+\end{equation}
+For $x,y\in[0,1]$, binary relative entropy obeys
+\begin{equation}
+ \operatorname{kl}(x,y)
+ \geq(1-x)\log\frac1{1-y}-\log2.
+ \label{eq:binary-kl}
+\end{equation}
+
+The moment-free guarantee implies
+\begin{align}
+ \E_PN_a(T)&\leq \frac{v^{1/p}\Phi(T)}{\Delta_a},
+ \label{eq:count-original}\\
+ T-\E_{P'}N_a(T)&\leq
+ \frac{(v'_\beta)^{1/p}\Phi(T)}{\Delta_a}.
+ \label{eq:count-alt}
+\end{align}
+Substituting \eqref{eq:count-original} and \eqref{eq:count-alt} into
+\eqref{eq:data-processing} through \eqref{eq:binary-kl} yields
+\begin{align}
+ &\left(1-\frac{v^{1/p}\Phi(T)}{T\Delta_a}\right)
+ \log\left(\frac{T\Delta_a}{(v'_\beta)^{1/p}\Phi(T)}\right)-\log2
+ \nonumber\\
+ &\hspace{35mm}\leq2\beta\log2\,\E_PN_a(T).
+ \label{eq:key-lower}
+\end{align}
+
+Put $r=p/(p-1)$ and choose
+\begin{equation}
+ \alpha=8^{-r},
+ \qquad
+ \beta_T=\alpha^{-1}\left(\frac{\Phi(T)}T\right)^r.
+ \label{eq:beta-choice}
+\end{equation}
+Since $\Phi(T)=o(T)$, $\beta_T\to0$. Equation \eqref{eq:vprime} gives
+\begin{equation}
+ (v'_{\beta_T})^{1/p}\Phi(T)
+ =2\Delta_a\alpha^{(p-1)/p}T\{1+o(1)\}.
+ \label{eq:vprime-limit}
+\end{equation}
+The right side equals $\Delta_a T\{1+o(1)\}/4$.
+The first factor on the left of \eqref{eq:key-lower} tends to one. The
+logarithm tends to $\log4$, so the entire left side tends to $\log2$.
+Using \eqref{eq:beta-choice} on the right gives
+\begin{align*}
+ \liminf_{T\to\infty}
+ \frac{\E_PN_a(T)}{(T/\Phi(T))^r}
+ &\geq\frac{\alpha}{2\log2}\log2\\
+ &=\frac1{2\,8^r}=c_p.
+\end{align*}
+Multiplying by $\Delta_a$ and summing this inequality over all suboptimal
+arms proves \eqref{eq:lower-app}.
+\end{proof}
+
+If $\Phi(T)=T^{a+o(1)}$ and a fixed-instance rate is
+$T^{b+o(1)}$, Theorem~\ref{thm:lower-app} implies
+\[
+ b\geq\frac{p}{p-1}(1-a),
+\]
+or equivalently
+\[
+ b+\frac{p}{p-1}a\geq\frac{p}{p-1}.
+\]
+For the algorithmic exponent
+$a=1-\rho(p-1)/p$, the right side is exactly $\rho$. This completes the
+proof of the simultaneous sharp frontier.
+
+\bibliography{references}
+
+\end{document}

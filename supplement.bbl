@@ -1,0 +1,19 @@
+\begin{thebibliography}{}
+
+\bibitem[Genalti and Metelli, 2025]{genalti2025lower}
+Genalti, G. and Metelli, A.~M. (2025).
+\newblock A regret lower bound for $u$-adaptive heavy-tailed bandits.
+\newblock Technical report, Politecnico di Milano.
+
+\bibitem[Hadiji and Stoltz, 2023]{hadiji2023range}
+Hadiji, H. and Stoltz, G. (2023).
+\newblock Adaptation to the range in $k$-armed bandits.
+\newblock {\em Journal of Machine Learning Research}, 24(13):1--33.
+
+\bibitem[von Bahr and Esseen, 1965]{vonbahr1965inequalities}
+von Bahr, B. and Esseen, C.-G. (1965).
+\newblock Inequalities for the $r$th absolute moment of a sum of random
+  variables, $1\leq r\leq2$.
+\newblock {\em The Annals of Mathematical Statistics}, 36(1):299--303.
+
+\end{thebibliography}
