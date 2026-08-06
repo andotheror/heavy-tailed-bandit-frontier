@@ -16,7 +16,7 @@ $$
 
 $$
 \begin{aligned}
- \sup_{\nu\in\mathcal{H}_{p,u}}R_T(\nu) \leq C u^{1/p}\big\{&K\log(eK) \\ &+K^{1-\rho}T^\rho\\ &+K^{\rho\gamma_p}T^{1-\rho\gamma_p} L_T^{\gamma_p}\big\}, 
+ \sup_{\nu\in\mathcal{H}_{p,u}}R_T(\nu) \leq C u^{1/p}\big\\{&K\log(eK) \\\\ &+K^{1-\rho}T^\rho\\\\ &+K^{\rho\gamma_p}T^{1-\rho\gamma_p} L_T^{\gamma_p}\big\\}, 
 \end{aligned}
 $$
 
@@ -25,7 +25,7 @@ $$
 **Theorem.** For every fixed bandit instance with a finite $p$th absolute moment for some $p>1$, ForceMoM satisfies 
 
 $$
- \sum_{t=1}^\infty \Pr\{t\text{ is exploit and }I_t\notin\arg\max_i\mu_i\}<\infty. 
+ \sum_{t=1}^\infty \Pr\\{t\text{ is exploit and }I_t\notin\arg\max_i\mu_i\\}<\infty. 
 $$
 
  Consequently, 
